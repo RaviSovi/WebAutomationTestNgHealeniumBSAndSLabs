@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Web Automation Regression Suite" verbose="10" parallel="methods" thread-count="1">
+    <listeners>
+        <listener class-name="com.project.config.ListenerTest"/>
+    </listeners>
+    <parameter name="execution" value="local"/>
+    <parameter name="browser" value="chrome"/>
+    <test name="RegressionTestCases">
+        <classes>
+            <class name="com.project.testscripts.BasicTest">
+                <methods>
+                    <include name="testCase1"/>
+                    <!--<include name="testCase2"/>-->
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
