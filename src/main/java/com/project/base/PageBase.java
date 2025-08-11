@@ -145,4 +145,9 @@ public class PageBase extends ReadProperties {
     public static boolean isHealeniumEnabled() throws Exception {
         return Boolean.parseBoolean(DrivergetProperty("use.healenium"));
     }
+	
+	 @BeforeSuite(alwaysRun = true)
+    public void loadTestData() {
+        TestDataLoader.loadAllExcelData("src\\test\\resources\\WebAutomation\\TestData\\");
+    }
 }

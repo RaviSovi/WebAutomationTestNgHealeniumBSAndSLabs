@@ -100,6 +100,26 @@ public class ExcelUtilities extends DriverFactory {
     }
 
     /**
+     * This method is to get all columns value from excel based on file name and sheet name.
+     **/
+    public static HashMap<String, String> getAllColumnValues(String fileName, String sheetName, int columnNumber) throws Exception {
+        HashMap<String, String> data = new HashMap<>();
+        try{
+            setExcelSheet(fileName, sheetName);
+        } catch (Exception e) {
+            ER.Fail("Error is reading the excel file....");
+            throw new RuntimeException(e);
+        }
+        try{
+            getAllElements(columnNumber);
+        } catch (Exception e) {
+            ER.Fail("Error is reading the excel file....");
+            throw new RuntimeException(e);
+        }
+        return  data;
+    }
+
+    /**
      * This method is to close excel.
      **/
     public static void closeExcel() throws Exception {

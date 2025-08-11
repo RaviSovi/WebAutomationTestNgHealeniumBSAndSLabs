@@ -7,21 +7,21 @@ import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class BasicTest extends DriverFactory {
+public class BasicTest2 extends DriverFactory {
 
 	@BeforeClass(alwaysRun = true)
 	public void setTestContext() {
 		// Set which Excel file and sheet this test will use
-		TestDataLoader.setContext("testdata_web", "LoginTestData");
+		TestDataLoader.setContext("testdata_web", "Configuration");
 	}
 
 	@Test
-	public static void testCase1() throws Exception {
+	public static void testCase3() throws Exception {
 		try {
-			ER.Info("Test case 1 started");
-			getDriver().get("https://www.flipkart.com");
-			String username = TestDataLoader.get("username");
-			String password = TestDataLoader.get("password");
+			ER.Info("Test case 3 started");
+			getDriver().get("https://www.amazon.com");
+			String username = TestDataLoader.get("browser");
+			String password = TestDataLoader.get("app_URL");
 
 			System.out.println("Username: " + username);
 			System.out.println("Password: " + password);
@@ -44,9 +44,9 @@ public class BasicTest extends DriverFactory {
 	}
 
 	@Test
-	public static void testCase2() throws Exception {
+	public static void testCase4() throws Exception {
 		try {
-			ER.Info("Test case 2 started");
+			ER.Info("Test case 4 started");
 			getDriver().get("https://www.facebook.com");
 			String title = getDriver().getTitle();
 			System.out.println("current tile is " + title);
