@@ -1,7 +1,7 @@
 package com.project.config;
 
-import java.io.IOException;
 import java.util.logging.Logger;
+
 import com.aventstack.extentreports.MediaEntityModelProvider;
 import com.aventstack.extentreports.Status;
 import com.project.base.DriverFactory;
@@ -51,7 +51,7 @@ public class ER extends DriverFactory {
     /**
      * This method will log the status of the test step along with message in extent report and console
      **/
-    public static void Fail(String msg) throws IOException, Exception {
+    public static void Fail(String msg) throws Exception {
         ExtentTestManager.getTest().log(Status.FAIL, msg + ExtentTestManager.getTest().addScreenCaptureFromPath(CaptureScreenshot.capture()));
         logConsole(msg);
         throw new Exception(msg);

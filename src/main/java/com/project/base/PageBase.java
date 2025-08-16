@@ -1,16 +1,14 @@
 package com.project.base;
 
 import com.project.config.ReadProperties;
+import com.project.utilities.TestDataLoader;
 import org.json.JSONObject;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.testng.ITestContext;
 import org.testng.ITestResult;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.BeforeSuite;
 
 import java.util.HashMap;
 
@@ -65,6 +63,7 @@ public class PageBase extends ReadProperties {
         options.put("os", "Windows");
         options.put("osVersion", "10");
         options.put("browserVersion", "latest");
+        options.put("projectName", "Company Web Automation");
         options.put("buildName", buildName);
         options.put("sessionName", className + "." + testName);
         options.put("userName", BROWSERSTACK_USERNAME);
@@ -95,6 +94,7 @@ public class PageBase extends ReadProperties {
     }
 
     public static void removeDriver() {
+        System.out.println("Removing Thread " + Thread.currentThread().getId());
         driver.remove();
     }
 
@@ -145,8 +145,8 @@ public class PageBase extends ReadProperties {
     public static boolean isHealeniumEnabled() throws Exception {
         return Boolean.parseBoolean(DrivergetProperty("use.healenium"));
     }
-	
-	 @BeforeSuite(alwaysRun = true)
+
+    @BeforeSuite(alwaysRun = true)
     public void loadTestData() {
         TestDataLoader.loadAllExcelData("src\\test\\resources\\WebAutomation\\TestData\\");
     }

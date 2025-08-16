@@ -104,19 +104,19 @@ public class ExcelUtilities extends DriverFactory {
      **/
     public static HashMap<String, String> getAllColumnValues(String fileName, String sheetName, int columnNumber) throws Exception {
         HashMap<String, String> data = new HashMap<>();
-        try{
+        try {
             setExcelSheet(fileName, sheetName);
         } catch (Exception e) {
             ER.Fail("Error is reading the excel file....");
             throw new RuntimeException(e);
         }
-        try{
+        try {
             getAllElements(columnNumber);
         } catch (Exception e) {
             ER.Fail("Error is reading the excel file....");
             throw new RuntimeException(e);
         }
-        return  data;
+        return data;
     }
 
     /**
