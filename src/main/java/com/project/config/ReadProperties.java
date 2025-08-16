@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.Properties;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -32,27 +33,23 @@ public class ReadProperties {
     }
 
     public static By getByArgument(String property) throws Exception {
-        By by = null;
         String byValue = DrivergetProperty(property).split(";")[1];
         String byType = DrivergetProperty(property).split(";")[0];
 
-        switch (byType.toUpperCase()) {
-            case "ID":
-                by = By.id(byValue);
-                break;
-
-            case "CLASSNAME":
-                by = By.className(byValue);
-                break;
-
-            case "XPATH":
-                by = By.xpath(byValue);
-                break;
-        }
-        return by;
+        return switch (byType.toUpperCase()) {
+            case "XPATH" -> By.xpath(byValue);
+            case "CSS", "CSSSELECTOR" -> By.cssSelector(byValue);
+            case "ID" -> By.id(byValue);
+            case "NAME" -> By.name(byValue);
+            case "CLASS", "CLASSNAME" -> By.className(byValue);
+            case "TAGNAME" -> By.tagName(byValue);
+            case "LINKTEXT" -> By.linkText(byValue);
+            case "PARTIALLINKTEXT" -> By.partialLinkText(byValue);
+            default -> throw new IllegalArgumentException("Unsupported locator type: " + byType);
+        };
     }
 
-    public static By getByArgumentFromString(String property) throws Exception {
+    public static By getByArgumentFromString(String property) {
         By by = null;
         String byValue = property.split(";")[1];
         String byType = property.split(";")[0];

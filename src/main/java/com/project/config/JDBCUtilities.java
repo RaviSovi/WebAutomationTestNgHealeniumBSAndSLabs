@@ -21,7 +21,7 @@ public class JDBCUtilities extends DriverFactory {
     public static String DB_PASSWORD = "your_password";
 
     @SuppressWarnings("deprecation")
-    public void setUp() throws Exception {
+    public void setUp() {
         try {
             // Database connection
             String dbClass = "com.mysql.cj.jdbc.Driver";

@@ -1,8 +1,12 @@
 package com.project.base;
 
 import com.epam.healenium.SelfHealingDriver;
+import com.project.utilities.PageManager;
+import com.project.utilities.Pages;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -29,15 +33,19 @@ public class DriverFactory extends PageBase {
             case "local" -> {
                 if (browser.equalsIgnoreCase("chrome")) {
                     WebDriverManager.chromedriver().setup();
-                    webDriver = new org.openqa.selenium.chrome.ChromeDriver(getChromeOptions());
+                    webDriver = new ChromeDriver(getChromeOptions());
                 } else if (browser.equalsIgnoreCase("edge")) {
-                    webDriver = new org.openqa.selenium.edge.EdgeDriver(getEdgeOptions());
+                    webDriver = new EdgeDriver(getEdgeOptions());
                 }
             }
             case "browserstack" -> {
                 var options = browser.equalsIgnoreCase("chrome") ? getChromeOptions() : getEdgeOptions();
                 options.setCapability("bstack:options", getBrowserStackOptions(method.getName(), context.getSuite().getName(), className));
-                webDriver = new RemoteWebDriver(new URL("http://localhost:8085/wd/hub"), options);
+                if (isHealeniumEnabled()) {
+                    webDriver = new RemoteWebDriver(new URL("http://localhost:8085/wd/hub"), options);
+                } else {
+                    webDriver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), options);
+                }
             }
             case "saucelabs" -> {
                 var options = browser.equalsIgnoreCase("chrome") ? getChromeOptions() : getEdgeOptions();
@@ -55,7 +63,7 @@ public class DriverFactory extends PageBase {
         }
 
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
         getDriver().manage().deleteAllCookies();
     }
 
@@ -65,6 +73,8 @@ public class DriverFactory extends PageBase {
         updateCloudExecutionStatus(getDriver(), result, platform);
         quitDriver();
         removeDriver();
+        Pages.unloadPages();
+        PageManager.unload();
     }
 
     @BeforeSuite(alwaysRun = true)
