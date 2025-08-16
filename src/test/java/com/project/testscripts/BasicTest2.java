@@ -12,8 +12,8 @@ public class BasicTest2 extends DriverFactory {
 
     @BeforeClass(alwaysRun = true)
     public void setTestContext() {
-        // Set which Excel file and sheet this test will use
-        //TestDataLoader.setContext("testdata_web", "Configuration");
+         //Set which Excel file and sheet this test will use
+        TestDataLoader.setContext("testdata_web", "Configuration");
     }
 
     @Test
@@ -21,11 +21,11 @@ public class BasicTest2 extends DriverFactory {
         try {
             ER.Info("Test case 3 started");
             getDriver().get("https://www.amazon.com");
-//			String browser = TestDataLoader.get("browser");
-//			String app_url = TestDataLoader.get("app_URL");
-//
-//			System.out.println("browser: " + browser);
-//			System.out.println("app_url: " + app_url);
+			String browser = TestDataLoader.get("browser");
+			String app_url = TestDataLoader.get("app_URL");
+
+			System.out.println("browser: " + browser);
+			System.out.println("app_url: " + app_url);
             String title = getDriver().getTitle();
             System.out.println("current tile is " + title);
             //Utils.pauseExecution(5);

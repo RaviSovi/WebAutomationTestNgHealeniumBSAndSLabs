@@ -17,7 +17,7 @@ public class ExcelUtilities extends DriverFactory {
     private static XSSFRow data;
 
     /**
-     * This method is to set excel sheet.
+     * This method is to set Excel sheet.
      **/
     public static void setExcelSheet(String FileName, String SheetName) throws Exception {
         try {

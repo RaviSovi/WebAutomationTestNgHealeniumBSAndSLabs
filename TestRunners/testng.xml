@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Web Automation Regression Suite" verbose="10" parallel="classes" thread-count="6">
+<suite name="Web Automation Regression Suite" verbose="10" parallel="methods" thread-count="2" >
     <listeners>
         <listener class-name="com.project.config.ListenerTest"/>
     </listeners>
     <parameter name="execution" value="local"/>
-    <parameter name="browser" value="chrome"/>
+    <parameter name="browser" value="edge"/>
     <test name="RegressionTestCases">
         <classes>
-            <class name="com.project.testscripts.BasicTest">
+            <class name="com.project.testscripts.TMLTest">
                 <methods>
                     <include name="testCase1"/>
-                    <!--<include name="testCase2"/>-->
+                    <include name="testCase2"/>
                 </methods>
             </class>
-            <class name="com.project.testscripts.BasicTest2">
+            <!--<class name="com.project.testscripts.BasicTest2">
                 <methods>
                     <include name="testCase3"/>
-                    <!--<include name="testCase4"/>-->
+                    <include name="testCase4"/>
                 </methods>
-            </class>
+            </class>-->
         </classes>
     </test>
 </suite>

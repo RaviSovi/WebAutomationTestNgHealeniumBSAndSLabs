@@ -1,6 +1,8 @@
 package com.project.base;
 
 import com.epam.healenium.SelfHealingDriver;
+import com.project.utilities.PageManager;
+import com.project.utilities.Pages;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -71,6 +73,8 @@ public class DriverFactory extends PageBase {
         updateCloudExecutionStatus(getDriver(), result, platform);
         quitDriver();
         removeDriver();
+        Pages.unloadPages();
+        PageManager.unload();
     }
 
     @BeforeSuite(alwaysRun = true)

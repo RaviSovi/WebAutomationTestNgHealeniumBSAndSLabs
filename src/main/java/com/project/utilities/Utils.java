@@ -269,6 +269,18 @@ public class Utils extends DriverFactory {
 
     //************************** Below methods are only need to use when you have web element *********************************//
 
+    /*** Use this method to wait until web element is clickable on web page - USING WEB ELEMENT ***/
+    public static void waitForElementToBeClickable(WebElement webElement) throws Exception {
+        try {
+            waitForPageLoad();
+            WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(60));
+            wait.until(ExpectedConditions.elementToBeClickable(webElement));
+        } catch (Exception e) {
+            ER.Fail("****** Element is not clickable with web element (Waited 60 seconds): " + webElement + " ****** \n" + e.getMessage());
+            e.getMessage();
+        }
+    }
+
     /*** Use this method to wait until web element visible on web page - USING WEB ELEMENT ***/
     public static void waitForVisibilityOfElement(WebElement webElement) throws Exception {
         try {
@@ -408,4 +420,160 @@ public class Utils extends DriverFactory {
         }
     }
 
+    /** This method will verify whether the element is displayed. **/
+    public static void isDisplayed(WebElement webElement) {
+        String text = null;
+        try {
+            scrollToElement(webElement);
+            waitForVisibilityOfElement(webElement);
+            if (webElement.isDisplayed())
+            {
+                text=webElement.getText();
+                ER.Pass(webElement+" is displayed on web page with text : "+text);
+            }
+        } catch (Exception e) {
+           ER.Warning(webElement+" is not displayed on web page with text : "+text+"\n Exception Details: " + e.getMessage());
+        }
+    }
+
+    /** This method will verify whether the element is not displayed **/
+    public static void isNotDisplayed(WebElement webElement) {
+        String text = null;
+        try {
+            scrollToElement(webElement);
+            waitForVisibilityOfElement(webElement);
+            if (!webElement.isDisplayed())
+            {
+                text=webElement.getText();
+                ER.Pass(webElement+" is not displayed on web page with text : "+text);
+            }
+        } catch (Exception e) {
+            ER.Warning(webElement+" is displayed on web page with text : "+text+"\n Exception Details: " + e.getMessage());
+        }
+    }
+
+    /** This method will verify whether the element is selected. **/
+    public static boolean isSelected(WebElement webElement) throws Exception {
+        boolean status = false;
+        try {
+            scrollToElement(webElement);
+            waitForVisibilityOfElement(webElement);
+            if (webElement.isSelected())
+                status = true;
+        } catch (Exception e) {
+            ER.Fail(webElement+" is not selected \n Exception Details: " + e.getMessage());
+        }
+        return status;
+    }
+
+    /** This method will verify whether the element is not selected. **/
+    public static boolean isNotSelected(WebElement webElement) throws Exception {
+        boolean status = false;
+        try {
+            if (!webElement.isSelected())
+                status = true;
+        } catch (Exception e) {
+            ER.Fail(webElement+" is selected \n Exception Details: " + e.getMessage());
+        }
+        return status;
+    }
+
+    /** This method will get the text of expected element. **/
+    public static String getText(WebElement webElement) {
+        String text = null;
+        try {
+            scrollToElement(webElement);
+            waitForVisibilityOfElement(webElement);
+            text = webElement.getText().trim();
+        } catch (Exception e) {
+            ER.Info("Exception Details: " + e.getMessage());
+        }
+        if (null == text) {
+            ER.Warning("Unable to get text for element : "+webElement);
+            return text;
+        } else {
+            return text;
+        }
+    }
+
+    /** This method will get the value of expected element. **/
+    public static String getValue(WebElement webElement) {
+        String text = null;
+        try {
+            scrollToElement(webElement);
+            waitForVisibilityOfElement(webElement);
+            text = webElement.getAttribute("value").trim();
+        } catch (Exception e) {
+            ER.Info("Exception Details: " + e.getMessage());
+        }
+        if (null == text) {
+            ER.Warning("Unable to get value for element : "+webElement);
+            return text;
+        } else {
+            return text;
+        }
+    }
+
+    /** This method will get the name of expected element for iOS. **/
+    public static String getAttribute(WebElement webElement) {
+        String text = null;
+        try {
+            scrollToElement(webElement);
+            waitForVisibilityOfElement(webElement);
+            text = webElement.getAttribute("label").trim();
+        } catch (Exception e) {
+            ER.Info("Exception Details: " + e.getMessage());
+        }
+        if (null == text) {
+            ER.Warning("Unable to get Attribute for element : "+webElement);
+            return text;
+        } else {
+            return text;
+        }
+    }
+
+    /** This method will verify that expected and actual text. **/
+    public static void verifyText(WebElement webElement, String expectedText) {
+        String actualText = null;
+        try {
+            actualText = getText(webElement);
+            if (actualText.equals(expectedText)) {
+                ER.Pass("Text of Web Element : '"+webElement+"' is matching, expected text : "+expectedText+" actual text : "+actualText);
+            } else {
+                ER.Warning("Text of Web Element : '"+webElement+"' is not matching, expected text : "+expectedText+" actual text : "+actualText);
+            }
+        } catch (Exception e) {
+            ER.Info("Exception Details: " + e.getMessage());
+        }
+    }
+
+    /** This method will verify that expected and actual text are not matching. **/
+    public static void verifyTextNotMatching(WebElement webElement, String expectedText) {
+        String actualText = null;
+        try {
+            actualText = getText(webElement);
+            if (!actualText.equals(expectedText)) {
+                ER.Pass("Text of Web Element : '"+webElement+"' is not matching, expected text : "+expectedText+" actual text : "+actualText);
+            } else {
+                ER.Warning("Text of Web Element : '"+webElement+"' is matching, expected text : "+expectedText+" actual text : "+actualText);
+            }
+        } catch (Exception e) {
+            ER.Info("Exception Details: " + e.getMessage());
+        }
+    }
+
+    /** This method will verify the length of expected and actual text. **/
+    public static void verifyTextLength(WebElement webElement, int expectedTextLength) {
+        int actualTextLength = 0;
+        try {
+            actualTextLength = getText(webElement).length();
+            if (actualTextLength == (expectedTextLength)) {
+                ER.Pass("Text length of Web Element : '"+webElement+"' is matching, expected text length : "+expectedTextLength+" actual text length : "+actualTextLength);
+            } else {
+                ER.Warning("Text length of Web Element : '"+webElement+"' is not matching, expected text length : "+expectedTextLength+" actual text length : "+actualTextLength);
+            }
+        } catch (Exception e) {
+            ER.Info("Exception Details: " + e.getMessage());
+        }
+    }
 }
